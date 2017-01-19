@@ -1,0 +1,121 @@
+<html>
+
+
+    <style type="text/css">
+
+        .gallerycontainer{
+            position: relative;
+        }
+
+        .thumbnail img{
+            border: 1px solid white;
+            margin: 0 5px 5px 0;
+        }
+
+        .thumbnail:hover{
+            background-color: transparent;
+        }
+
+        .thumbnail:hover img{
+            border: 1px solid blue;
+        }
+
+        .thumbnail span{ /*CSS for enlarged image*/
+            position: absolute;
+            background-color: lightyellow;
+            padding: 5px;
+            left: -1000px;
+            border: 1px dashed gray;
+            visibility: hidden;
+            color: black;
+            text-decoration: none;
+        }
+
+        .thumbnail span img{ /*CSS for enlarged image*/
+            border-width: 0;
+            padding: 2px;
+        }
+
+        .thumbnail:hover span{ /*CSS for enlarged image*/
+            visibility: visible;
+            top: 0;
+            left: 530px; /*position where enlarged image should offset horizontally */
+            z-index: 50;
+        }
+
+        .center {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+        }
+    </style>
+
+    <body>
+
+
+    <div class="center">
+        <h2> Personal Photo Search Engine </h2>
+        <input id="query" type="text" name="search" size=50 placeholder="Enter keywords..">
+        <input id="searchBtn" type="button" value="Search" >
+    </div>
+
+    <div id="results" class="gallerycontainer">
+
+    </div>
+
+    <img src="photo_tags.png"/>
+    <script src="js/jquery.js"></script>
+    <script>
+
+        var SERVICE_URL = "localhost:8000";
+
+        searchCommand = function(tag){
+            txt = document.getElementById('query').value;
+            if (txt == '' || typeof(tag) == 'string'){
+                txt = tag;
+                document.getElementById('query').value = tag;
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: "http://"+ SERVICE_URL +"/search",
+                data: {query: txt},
+                dataType: 'json',
+                timeout: 20000,
+                success: process,
+                error: function(xhr){
+                       console.log("error", xhr);
+                   }
+            });
+
+        }
+
+        var linksContainer = $('#results');
+
+        function process(response){
+            linksContainer.empty();
+            console.log(response);
+            for (var i=0; i<response.length; i++){
+                    var img = response[i];
+                    var ele = $('<a/>')
+                        .append($('<img width="240" height="180">').prop('src', img))
+                        .append('<span><img width="640" height="480" src="'+img+'"/><br />.</span>')
+                        .prop('class', 'thumbnail')
+                        .prop('href', '#thumb')
+                        .appendTo(linksContainer)
+
+                    if ((i+1)%2 == 0){
+                        linksContainer.append('<br/>')
+                    } 
+           }
+
+        }
+
+        // SEARCH
+        btn = document.getElementById('searchBtn');
+        btn.onclick = searchCommand;
+    </script>
+
+</body>
+</html>
+
