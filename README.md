@@ -3,7 +3,7 @@ Reference implementation on building a local image search engine that uses Amazo
 
 # Architecture
 
-![alt text] (https://s3.amazonaws.com/smallya-test/localserachengine-architecture.png "Local Image
+![alt text](https://s3.amazonaws.com/smallya-test/localserachengine-architecture.png "Local Image
 Search Engine with Rekognition")
 
 # Instructions
