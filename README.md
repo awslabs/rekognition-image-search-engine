@@ -19,4 +19,5 @@ Search Engine with Rekognition")
 * A new file called web/photo_tags.png is created with the tags of the photos.
 
 ## License
-This code sample is licensed under the Amazon Software License.
+
+This code sample is licensed under the MIT-0 License.
